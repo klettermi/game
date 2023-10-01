@@ -25,7 +25,10 @@ public class HangmanService {
     private final HangmanRepository hangmanRepository;
     static final int LIMIT_INCORRECT_COUNT = 8;
 
-    // 영어 단어 랜덤으로 세 개 띄우기
+    /**
+     * 단어 3개 랜덤 추출
+     * @return  List<String> : 랜덤 단어 3개 리스트
+     */
     public List<String> setInitWords() {
         ArrayList<String> initWords = new ArrayList<>();
         for(int i = 0; i < 3; i++){
@@ -74,7 +77,7 @@ public class HangmanService {
 
             newAnswer = String.join("",currentAnswerAlphabet);
 
-            hangmanHistory.update(newAnswer, count+1);
+            hangmanHistory.update(newAnswer, count);
 
             if(!newAnswer.contains("*")){
                 win = true;
