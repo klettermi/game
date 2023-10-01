@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.example.game.global.enums.ErrorCode.*;
@@ -147,6 +145,14 @@ public class HangmanService {
         HangmanHistory hangmanHistory = hangmanRepository.findById(id).orElseThrow(
                 () -> new WordNotFoundException(WORD_NOT_FOUND)
         );
+        return hangmanHistory.getWord();
+    }
+
+    public String restartGame(Long id) {
+        HangmanHistory hangmanHistory = hangmanRepository.findById(id).orElseThrow(
+                () -> new WordNotFoundException(WORD_NOT_FOUND)
+        );
+        hangmanHistory.update("*".repeat(hangmanHistory.getWord().length()),0);
         return hangmanHistory.getWord();
     }
 }

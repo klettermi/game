@@ -3,9 +3,9 @@ package com.example.game.domain.hangman.controller;
 import com.example.game.domain.hangman.dto.HangmanRequestDto;
 import com.example.game.domain.hangman.dto.HangmanResponseDto;
 import com.example.game.domain.hangman.dto.WordRequestDto;
+import com.example.game.domain.hangman.service.HangmanService;
 import com.example.game.global.responseDto.ApiResponse;
 import com.example.game.global.util.ResponseUtils;
-import com.example.game.domain.hangman.service.HangmanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,5 +74,16 @@ public class HangmanController {
                 return ResponseUtils.ok(CORRECT_ALPHABET, data);
             }else return ResponseUtils.ok(INCORRECT_ALPHABET, data);
         }
+   }
+
+    /**
+     * 재시작
+     * @param id
+     * @return SuccessCode
+     */
+   @PostMapping("/game_start/restart/{id}")
+    public ApiResponse<?> restartHangman(@PathVariable("id") Long id){
+       String data = hangmanService.restartGame(id);
+       return ResponseUtils.ok(RESTART_SUCCESS, data);
    }
 }
