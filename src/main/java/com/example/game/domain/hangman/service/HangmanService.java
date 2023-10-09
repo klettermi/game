@@ -98,6 +98,7 @@ public class HangmanService {
 
             return HangmanResponseDto.builder()
                     .win(win)
+                    .count(count)
                     .correct(true)
                     .currentWord(newAnswer)
                     .build();
@@ -113,6 +114,7 @@ public class HangmanService {
             return HangmanResponseDto.builder()
                     .win(win)
                     .correct(false)
+                    .count(count+1)
                     .currentWord(currentAnswer)
                     .build();
          }
