@@ -14,6 +14,7 @@ public enum SuccessCode {
     INIT_WORDS_SETTING_SUCCESS(OK, "랜덤한 3개의 단어가 정해졌습니다."),
     CLEAR_GAME(OK, "선택한 단어가 세팅되었습니다."),
     GET_WORD_SUCCESS(OK, "선택한 단어입니다."),
+    INIT_NUMS_SETTING_SUCCESS(OK, "랜덤한 3개의 숫자가 정해졌습니다."),
 
     /* 201 CREATED : 요청이 성공적이었으며 그 결과로 새로운 리소스가 생성 되었다는 의미입니다. */
     CORRECT_ALPHABET(OK, "알맞은 알파벳이 있습니다."),
