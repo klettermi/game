@@ -1,10 +1,7 @@
 package com.example.game.domain.baseball.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -28,4 +25,9 @@ public class BaseballGame {
     @Column
     private String gameNums;
 
+    public void update(int strikeCnt, int ballCnt, String gameNums) {
+        this.strikeCnt = strikeCnt;
+        this.ballCnt = ballCnt;
+        this.gameNums = gameNums;
+    }
 }
