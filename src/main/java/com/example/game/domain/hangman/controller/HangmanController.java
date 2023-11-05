@@ -14,11 +14,11 @@ import java.util.List;
 import static com.example.game.global.enums.SuccessCode.*;
 
 /**
- * 행맨 게임의 Cotroller
+ * 행맨 게임의 Controller
  *
  * @author mi
  * @version 0.0, init project
- * @see None
+ * @see
  */
 @RestController
 @CrossOrigin(exposedHeaders = "*")

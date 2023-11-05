@@ -1,7 +1,7 @@
 package com.example.game.domain.hangman.service;
 
 import com.example.game.domain.hangman.dto.HangmanResponseDto;
-import com.example.game.domain.hangman.entity.HangmanHistory;
+import com.example.game.domain.hangman.entity.Hangman;
 import com.example.game.domain.hangman.enums.Word;
 import com.example.game.domain.hangman.exception.AlreadySelectAlphabet;
 import com.example.game.domain.hangman.exception.GameOverException;
@@ -42,14 +42,14 @@ public class HangmanService {
      * @return id
      */
     public Long setMission(String word) {
-        HangmanHistory hangmanHistory = HangmanHistory.builder()
+        Hangman hangman = Hangman.builder()
                 .word(word)
                 .currentAnswer("*".repeat(word.length()))
                 .build();
 
-        hangmanRepository.save(hangmanHistory);
+        hangmanRepository.save(hangman);
 
-        return hangmanHistory.getId();
+        return hangman.getId();
     }
 
     // 알파벳 입력 후 확인
@@ -62,17 +62,17 @@ public class HangmanService {
      */
     public HangmanResponseDto startGame(Long id, String alphabet) {
         /* id로 가져오기 */
-        HangmanHistory hangmanHistory = hangmanRepository.findById(id).orElseThrow(
+        Hangman hangman = hangmanRepository.findById(id).orElseThrow(
                 () -> new WordNotFoundException(WORD_NOT_FOUND)
         );
 
-        String word = hangmanHistory.getWord();         /* 출제 단어 */
-        String currentAnswer = hangmanHistory.getCurrentAnswer();       /* 현재까지 대답한 답 */
-        int count = hangmanHistory.getCount();      /* 오답 횟수 */
+        String word = hangman.getWord();         /* 출제 단어 */
+        String currentAnswer = hangman.getCurrentAnswer();       /* 현재까지 대답한 답 */
+        int count = hangman.getCount();      /* 오답 횟수 */
         String newAnswer = "";      /* 새로 입력할 답 */
         boolean win = false;        /* 단어를 맞췄는지 flag */
 
-        String[] currentAnswerAlphabet = hangmanHistory.getCurrentAnswer().toUpperCase().split("");
+        String[] currentAnswerAlphabet = hangman.getCurrentAnswer().toUpperCase().split("");
 
         /* 선택한 버튼 또 선택 시, front에서 선택 못하게 막아놓기는 했음 */
         if(currentAnswer.contains(alphabet)){
@@ -88,12 +88,12 @@ public class HangmanService {
 
             newAnswer = String.join("",currentAnswerAlphabet);
 
-            hangmanHistory.update(newAnswer, count);
+            hangman.update(newAnswer, count);
 
             /* 만약 단어를 맞춘 경우 */
             if(!newAnswer.contains("*")){
                 win = true;
-                hangmanRepository.delete(hangmanHistory);
+                hangmanRepository.delete(hangman);
             }
 
             return HangmanResponseDto.builder()
@@ -105,10 +105,10 @@ public class HangmanService {
         }
         /* 단어 안에 알파벳이 없을 경우 */
         else{
-            hangmanHistory.update(currentAnswer, count+1);      /* 오답 횟수 더하기 */
+            hangman.update(currentAnswer, count+1);      /* 오답 횟수 더하기 */
             /* 만약 오답 Limit 수를 넘었을 경우 */
             if(count+1 >= LIMIT_INCORRECT_COUNT){
-                hangmanRepository.delete(hangmanHistory);
+                hangmanRepository.delete(hangman);
                 throw new GameOverException(GAME_OVER);
             }
             return HangmanResponseDto.builder()
@@ -144,17 +144,17 @@ public class HangmanService {
      * @return String : 출제할 단어
      */
     public String getMission(Long id) {
-        HangmanHistory hangmanHistory = hangmanRepository.findById(id).orElseThrow(
+        Hangman hangman = hangmanRepository.findById(id).orElseThrow(
                 () -> new WordNotFoundException(WORD_NOT_FOUND)
         );
-        return hangmanHistory.getWord();
+        return hangman.getWord();
     }
 
     public String restartGame(Long id) {
-        HangmanHistory hangmanHistory = hangmanRepository.findById(id).orElseThrow(
+        Hangman hangman = hangmanRepository.findById(id).orElseThrow(
                 () -> new WordNotFoundException(WORD_NOT_FOUND)
         );
-        hangmanHistory.update("*".repeat(hangmanHistory.getWord().length()),0);
-        return hangmanHistory.getWord();
+        hangman.update("*".repeat(hangman.getWord().length()),0);
+        return hangman.getWord();
     }
 }
