@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 
 @Getter
@@ -19,6 +20,7 @@ public enum SuccessCode {
     /* 201 CREATED : 요청이 성공적이었으며 그 결과로 새로운 리소스가 생성 되었다는 의미입니다. */
     CORRECT_ALPHABET(OK, "알맞은 알파벳이 있습니다."),
     INCORRECT_ALPHABET(OK, "알맞은 알파벳이 없습니다."),
+    CONTINUE_GAME(OK, "게임을 계속하세요."),
     WIN(OK, "게임을 이기셨습니다."),
     RESTART_SUCCESS(OK, "게임이 재실행 되었습니다.");
 
